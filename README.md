@@ -96,6 +96,11 @@ This project is released under the [Apache License 2.0](LICENSE).
 
 ---
 
-## Related Projects
+## Using libraries
+
+- https://bazil.org/fuse/
+- https://github.com/blevesearch/bleve
+- https://github.com/dslipak/pdf
+- 
 
 
