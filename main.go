@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	mount := "/mnt/fusefs"
+	mount := "/mnt/guglielmofs"
 
 	c, err := fuse.Mount(mount)
 	if err != nil {
