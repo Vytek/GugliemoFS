@@ -10,7 +10,7 @@ type GenericExtractor struct{}
 
 func (g *GenericExtractor) Supports(ext string) bool {
 	switch ext {
-	case ".txt", ".doc", ".docx", ".ods":
+	case ".txt", ".doc", ".docx", ".odt", ".pptx":
 		return true
 	}
 	return false

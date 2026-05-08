@@ -14,24 +14,41 @@ import (
 )
 
 func main() {
-	c, err := fuse.Mount("/mnt/fusefs")
+	mount := "/mnt/fusefs"
+
+	c, err := fuse.Mount(mount)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer c.Close()
 
 	reg := extractors.NewRegistry()
 	reg.Register(&extractors.PDFExtractor{})
 	reg.Register(&extractors.GenericExtractor{})
 
-	idx, _ := indexer.NewIndexer("index.bleve")
-	meta, _ := indexer.NewMetaStore("meta.json")
+	idx, err := indexer.NewIndexer("index.bleve")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	meta, err := indexer.NewMetaStore("meta.json")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	pipe := pipeline.NewPipeline(reg, idx, meta)
+	defer pipe.Stop()
 
 	watcher.Start("./data", watcher.Handler{
-		OnWrite:  pipe.Process,
+		OnWrite:  pipe.Submit,
 		OnDelete: pipe.Delete,
 	})
 
-	fs.Serve(c, &myfs.FS{RootDir: "./data", Pipeline: pipe})
+	filesystem := &myfs.FS{
+		RootDir: "./data",
+	}
+
+	if err := fs.Serve(c, filesystem); err != nil {
+		log.Fatal(err)
+	}
 }

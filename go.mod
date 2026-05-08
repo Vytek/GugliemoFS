@@ -13,6 +13,7 @@ require (
 require (
 	github.com/EndFirstCorp/doc2txt v0.0.0-20210522214125-5d2d4043bb03 // indirect
 	github.com/RoaringBitmap/roaring/v2 v2.14.5 // indirect
+	github.com/alitto/pond v1.9.2
 	github.com/bits-and-blooms/bitset v1.24.2 // indirect
 	github.com/blevesearch/bleve_index_api v1.3.11 // indirect
 	github.com/blevesearch/geo v0.2.5 // indirect
