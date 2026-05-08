@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+// FileHash computes the SHA-256 hash of a file at the given path.
+// It returns the hash as a hexadecimal string or an error if the file cannot be read.
 func FileHash(path string) (string, error) {
 	f, err := os.Open(path)
 	if err != nil {

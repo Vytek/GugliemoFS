@@ -11,6 +11,8 @@ import (
 	"guglielmofs/pipeline"
 )
 
+// FS implements the FUSE filesystem interface, allowing us to serve a directory structure and files.
+// It uses the Pipeline to manage file processing and indexing.
 type FS struct {
 	RootDir  string
 	Pipeline *pipeline.Pipeline
@@ -30,6 +32,7 @@ func (d *Dir) Attr(ctx context.Context, a *fuse.Attr) error {
 	return nil
 }
 
+// ReadDirAll lists the contents of the directory, returning a slice of fuse.Dirent for each entry.
 func (d *Dir) ReadDirAll(ctx context.Context) ([]fuse.Dirent, error) {
 	list, _ := os.ReadDir(d.path)
 	var out []fuse.Dirent
@@ -43,6 +46,7 @@ func (d *Dir) ReadDirAll(ctx context.Context) ([]fuse.Dirent, error) {
 	return out, nil
 }
 
+// Lookup finds a child node (file or directory) by name and returns the corresponding fs.Node.
 func (d *Dir) Lookup(ctx context.Context, name string) (fs.Node, error) {
 	full := filepath.Join(d.path, name)
 	fi, err := os.Stat(full)
